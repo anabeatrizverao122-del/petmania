@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Pet Mania - Loja</title>
+  <style>
+    /* Reset e estilo geral */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Bold', sans-serif;
+    }
+
+    body {
+      background: url("ana.png") no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+    }
+
+    header {
+      margin-bottom: 20px;
+      text-align: center;
+      color: #b02a5b;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 600;
+      text-shadow: 1px 1px 5px #f8b3cc;
+      margin-bottom: 5px;
+    }
+
+    nav {
+      margin-bottom: 30px;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      border-bottom: 2px solid #b02a5b;
+      padding-bottom: 5px;
+    }
+
+    nav ul li a {
+      text-decoration: none;
+      color: #b02a5b;
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 25px;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    nav ul li a.active,
+    nav ul li a:hover {
+      background-color: #b02a5b;
+      color: white;
+      box-shadow: 0 4px 8px rgba(176, 42, 91, 0.4);
+    }
+
+    main {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    section {
+      display: none;
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    section.active-section {
+      display: block;
+    }
+
+    h2 {
+      color: #b02a5b;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #b02a5b;
+      padding-bottom: 5px;
+      font-size: 2rem;
+    }
+
+    .produtos {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .item {
+      background: #ffe6f0;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 4px 12px rgba(176, 42, 91, 0.2);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+
+    .item:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 8px 18px rgba(176, 42, 91, 0.3);
+    }
+
+    .item img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+    }
+
+    .btn-comprar {
+      background-color: #b02a5b;
+      color: #fff;
+      border: none;
+      padding: 10px 18px;
+      border-radius: 30px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+
+    .btn-comprar:hover {
+      background-color: #d94c79;
+    }
+
+    /* --- CARRINHO MODERNO --- */
+    #compra {
+      background: #fff7fa;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 6px 20px rgba(176, 42, 91, 0.15);
+    }
+
+    #carrinho-conteudo table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th {
+      background-color: #b02a5b;
+      color: white;
+      font-weight: 700;
+      padding: 12px;
+    }
+
+    td {
+      padding: 10px;
+      text-align: center;
+      border-bottom: 1px solid #ffd6e8;
+    }
+
+    td button {
+      background: #b02a5b;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 12px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    td button:hover {
+      background-color: #d94c79;
+    }
+
+    .total {
+      text-align: right;
+      font-weight: 700;
+      font-size: 1.3rem;
+      margin-top: 15px;
+      color: #b02a5b;
+    }
+
+    select, #finalizar-compra {
+      width: 100%;
+      padding: 12px;
+      border-radius: 25px;
+      border: 2px solid #b02a5b;
+      font-size: 1rem;
+      outline: none;
+      transition: 0.3s ease;
+      margin-top: 10px;
+    }
+
+    #finalizar-compra {
+      background-color: #b02a5b;
+      color: white;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    #finalizar-compra:hover {
+      background-color: #d94c79;
+    }
+
+    #mapa-entrega {
+      margin-top: 20px;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(176, 42, 91, 0.25);
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+    }
+
+    .mensagem-sucesso {
+      margin-top: 20px;
+      padding: 15px;
+      background-color: #b6fcd5;
+      color: #137a4a;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+      box-shadow: 0 0 10px #8de4af;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Pet Mania</h1>
+    <p>O melhor lugar para o seu Pet!💕</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="#" class="active" data-target="Sobre Nós">Sobre Nós</a></li>
+      <li><a href="#" class="active" data-target="acessorios">Acessórios</a></li>
+      <li><a href="#" data-target="comida">Comida</a></li>
+      <li><a href="#" data-target="gaiola">Gaiola</a></li>
+      <li><a href="#" data-target="aquario">Aquário</a></li>
+      <li><a href="#" data-target="casinha">Casinha</a></li>
+      <li><a href="#" data-target="compra">Carrinho 🛒</a></li>
+    </ul>
+  </nav>
+
+  <main>
+
+   <!-- Sobre Nós -->
+    <section id="Sobre Nós" class="active-section">
+      <div class="produtos">
+        <div class="item">
+  <h2 style="color:#b02a5b; text-align:center;">Sobre Nós 💖</h2>
+
+  <p style="text-align:center; max-width:700px; margin:20px auto; line-height:1.6; color:#333;">
+    Fundada pelo amor aos animais, a <strong>Pet Mania</strong> nasceu da paixão por cuidar e mimar cada pet como se fosse da família. Desde o primeiro dia, nosso objetivo é oferecer produtos de qualidade, carinho e atenção para cada cliente e seu melhor amigo peludo.
+  </p>
+
+  <div style="text-align:center; margin-top:20px;">
+    <p><strong> Telefone:</strong> (67) 99932-9634</p>
+    <p><strong> Localização:</strong> Av. Paulista, São Paulo - SP</p>
+  </div>
+
+  <h3 style="color:#b02a5b; text-align:center; margin-top:30px;">Nossa História</h3>
+  <p style="text-align:center; max-width:700px; margin:10px auto; line-height:1.6; color:#333;">
+    Desde nossa inauguração, a Pet Mania tem se dedicado a criar um espaço onde pets e seus donos se sintam em casa. Cada produto é selecionado com cuidado, pensando no bem-estar, diversão e conforto dos animais. Nossa missão é espalhar alegria e amor pelo mundo pet, um cliente de cada vez.
+  </p>
+
+  <!-- Mapa da localização da loja -->
+  <div id="mapa-sobre-nos" style="margin-top:20px; text-align:center;">
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.785662858446!2d-46.65598192569777!3d-23.576975962492756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59cda3b8e7d1%3A0x71b9de49c5c51b6!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+      width="600"
+      height="450"
+      style="border:0; border-radius:12px;"
+      allowfullscreen=""
+      loading="lazy">
+    </iframe>
+  </div>
+</section>
+
+   <!-- SEÇÕES DE PRODUTOS (mantidas iguais) -->
+      <!-- Acessórios -->
+    <section id="acessorios" class="active-section">
+      <h2>Gatos</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/azul.png" alt="Coleira Rosa para Gatos" />
+          <h3>Coleira Rosa para Gatos</h3>
+          <p><strong>R$ 45,90</strong></p>
+          <button class="btn-comprar" data-nome="Coleira Rosa para Gato" data-preco="45.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/arranhador.png" alt="Aranhador para Gatos" />
+          <h3>Arranhador para Gatos</h3>
+          <p><strong>R$ 122,00</strong></p>
+          <button class="btn-comprar" data-nome="Arranhador para Gatos" data-preco="122.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/cama linda.png" alt="Caminha para Gatos" />
+          <h3>Caminha para Gatos</h3>
+          <p><strong>R$ 89,00</strong></p>
+          <button class="btn-comprar" data-nome="Caminha para Gatos" data-preco="89.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+     <!-- Acessórios -->
+    <section id="acessorios" class="active-section">
+      <h2>Cachorro</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/coleia.png" alt="Coleira Facto Dunas Dourada" />
+          <h3>Coleira Facto Dunas Dourada</h3>
+          <p><strong>R$ 45,90</strong></p>
+          <button class="btn-comprar" data-nome="Coleira Rosa para Gato" data-preco="45.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/fofis.png" alt="Brinquedo Pet Mordedor Corda Bolinha Interativo" />
+          <h3>Brinquedo Pet Mordedor Corda Bolinha Interativo Caes Pestico</h3>
+          <p><strong>R$ 27,50</strong></p>
+          <button class="btn-comprar" data-nome="Brinquedo Varinha com Pena" data-preco="27.50">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/coma.png" alt="Cama Pet Para Cachorro Gold 02 Peças - Tamanho P 45x45" />
+          <h3>Cama Pet Para Cachorro Gold 02 Peças - Tamanho P 45x45</h3>
+          <p><strong>R$ 89,00</strong></p>
+          <button class="btn-comprar" data-nome="Arranhador para Gatos" data-preco="89.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acessórios -->
+    <section id="acessorios" class="active-section">
+      <h2>Roedores</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/bolinha.png" alt="Globo Acrílico para Hamster com Suporte 4 em 1 Savana Azul Único" />
+          <h3>Globo Acrílico para Hamster com Suporte 4 em 1 Savana Azul Único</h3>
+          <p><strong>R$ 29,90</strong></p>
+          <button class="btn-comprar" data-nome="Coleira Rosa para Gato" data-preco="29.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/agua.png" alt="Bebedouro Cristal P/Roedor Mini CALDEX" />
+          <h3>Bebedouro Cristal P/Roedor Mini CALDEX</h3>
+          <p><strong>R$ 27,50</strong></p>
+          <button class="btn-comprar" data-nome="Brinquedo Varinha com Pena" data-preco="27.50">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/arco.png" alt="Tubo Curvo Bragança para Roedores - Cores Sortidas" />
+          <h3>Tubo Curvo Bragança para Roedores - Cores Sortidas</h3>
+          <p><strong>R$ 16,00</strong></p>
+          <button class="btn-comprar" data-nome="Arranhador para Gatos" data-preco="16.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acessórios -->
+    <section id="acessorios" class="active-section">
+      <h2>Passaros</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/passaro.png" alt="Filhome Brinquedo de suporte para poleiro de pássaro, madeira natural " />
+          <h3>Filhome Brinquedo de suporte para poleiro de pássaro, madeira natural </h3>
+          <p><strong>R$ 98,90</strong></p>
+          <button class="btn-comprar" data-nome="Coleira Rosa para Gato" data-preco="89.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/passa.png" alt="2 Comedouro Automático de Sementes Para Aves e Calopsitas 220ml Malha Larga" />
+          <h3>2 Comedouro Automático de Sementes Para Aves e Calopsitas 220ml Malha Larga</h3>
+          <p><strong>R$ 69,00</strong></p>
+          <button class="btn-comprar" data-nome="Arranhador para Gatos" data-preco="69.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/vinho.png" alt="Cabana de calopsita tricoline suspensa toquinha para passaros" />
+          <h3>Cabana de calopsita tricoline suspensa toquinha para passaros</h3>
+          <p><strong>R$ 25,00</strong></p>
+          <button class="btn-comprar" data-nome="Caminha para Gatos" data-preco="25.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Acessórios -->
+    <section id="acessorios" class="active-section">
+      <h2>tartaruga</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/tarta.png" alt="Plataforma de descanso flutuante ilha musgo acessórios para aquário tartaruga" />
+          <h3>Plataforma de descanso flutuante ilha musgo acessórios para aquário tartaruga</h3>
+          <p><strong>R$35,90</strong></p>
+          <button class="btn-comprar" data-nome="Coleira Rosa para Gato" data-preco="35.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/esponja.png" alt="Escova de tartaruga com ventosa para tanque" />
+          <h3>Escova de tartaruga com ventosa para tanque</h3>
+          <p><strong>R$ 22,00</strong></p>
+          <button class="btn-comprar" data-nome="Arranhador para Gatos" data-preco="22.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/casia.png" alt="Folha réptil comida tigela de água" />
+          <h3>Folha réptil comida tigela de água</h3>
+          <p><strong>R$ 25,00</strong></p>
+          <button class="btn-comprar" data-nome="Caminha para Gatos" data-preco="25.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comida -->
+    <section id="comida">
+      <h2>Comida Gatos</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/racao.png" alt="Ração Golden Seleção Natural para Gatos Filhotes Sabor Frango e Arroz 1Kg." />
+          <h3>Ração Golden Seleção Natural para Gatos Filhotes Sabor Frango e Arroz 1Kg.</h3>
+          <p><strong>R$ 75,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Golden Seleção Natural para Gatos Filhotes Sabor Frango e Arroz 1Kg." data-preco="75.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/raca.png" alt="Ração Premium para Gatos" />
+          <h3>Ração Seca Pro Plan para Gatos Adultos - 7,5Kg</h3>
+          <p><strong>R$ 58,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Gatos" data-preco="58.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/petisco.png" alt="Petiscos Naturais" />
+          <h3>Petisco Whiskas Temptations Pelo Saudável Para Gatos Adultos.</h3>
+          <p><strong>R$ 34,50</strong></p>
+          <button class="btn-comprar" data-nome="Petiscos Naturais" data-preco="34.50">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comida -->
+    <section id="comida">
+      <h2>Comida Cães</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/cachorro.png" alt="Ração Nutrican sabor Carne para Cães Adultos porte Médio e Grande" />
+          <h3>Ração Nutrican sabor Carne para Cães Adultos porte Médio e Grande</h3>
+          <p><strong>R$ 89,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Cães" data-preco="89.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/chorro.png" alt="Alimento para Caês Adultos Carne Champ Sabor de Casa sachê" />
+          <h3>Alimento para Caês Adultos Carne Champ Sabor de Casa sachê</h3>
+          <p><strong>R$ 48,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Gatos" data-preco="48.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/carne.png" alt="Ração Pedigree Carne e Vegetais Cães Adultos Raças Pequenas e Minis" />
+          <h3>Ração Pedigree Carne e Vegetais Cães Adultos Raças Pequenas e Minis</h3>
+          <p><strong>R$ 69,50</strong></p>
+          <button class="btn-comprar" data-nome="Petiscos Naturais" data-preco="69.50">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comida -->
+    <section id="comida">
+      <h2>Comida Roedores</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/coelho.png" alt="Ração Megazoo para Hamsters" />
+          <h3>Ração Megazoo para Hamsters</h3>
+          <p><strong>R$ 87,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Cães" data-preco="87.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/rato.png" alt="Ração para Roedores PIC NIC FRUTAS 500G" />
+          <h3>Ração para Roedores PIC NIC FRUTAS 500G</h3>
+          <p><strong>R$ 94,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Gatos" data-preco="94.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/cenoura.png" alt="Suplemento Alcon Rodent 30g para Roedores" />
+          <h3>Suplemento Alcon Rodent 30g para Roedores</h3>
+          <p><strong>R$ 75,50</strong></p>
+          <button class="btn-comprar" data-nome="Petiscos Naturais" data-preco="75.50">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comida -->
+    <section id="comida">
+      <h2>Comida Pássaros</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/pass.png" alt="Mistura Calcária Pássaro Forte 1 kg" />
+          <h3>Mistura Calcária Pássaro Forte 1 kg</h3>
+          <p><strong>R$ 38,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Cães" data-preco="38.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/suco.png" alt="Ração para Pássaros Amarela 200g" />
+          <h3>Ração para Pássaros Amarela 200g</h3>
+          <p><strong>R$ 29,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Gatos" data-preco="29.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/amarelo.png" alt="Mix para Pássaros Exóticos 350g Megazoo" />
+          <h3>Mix para Pássaros Exóticos 350g Megazoo</h3>
+          <p><strong>R$ 34,50</strong></p>
+          <button class="btn-comprar" data-nome="Petiscos Naturais" data-preco="34.50">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comida -->
+    <section id="comida">
+      <h2>Comida Tartaruga</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/verde.png" alt="Ração de tartarugas Reptolife Alimento completo para Tartaruga" />
+          <h3>Ração de tartarugas Reptolife Alimento completo para Tartaruga</h3>
+          <p><strong>R$ 56,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Cães" data-preco="56.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/roxo.png" alt="Ração Extrusada Megazoo para Tartarugas 280g" />
+          <h3>Ração Extrusada Megazoo para Tartarugas 280g</h3>
+          <p><strong>R$ 38,00</strong></p>
+          <button class="btn-comprar" data-nome="Ração Premium para Gatos" data-preco="38.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/cinza.png" alt="Alimento Completo Mini Friends Turtle Tartaruga para Tartarugas" />
+          <h3>Alimento Completo Mini Friends Turtle Tartaruga para Tartarugas</h3>
+          <p><strong>R$ 62,50</strong></p>
+          <button class="btn-comprar" data-nome="Petiscos Naturais" data-preco="62.50">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+     <!-- Gaiola -->
+    <section id="gaiola">
+      <h2>Gaiola Roedores </h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/roda.png" alt="Gaiola Transporte com Poleiro e Carrossel para Hamster" />
+          <h3>Gaiola Transporte com Poleiro e Carrossel para Hamster</h3>
+          <p><strong>R$ 122,90</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola para Pássaros Pequena" data-preco="122.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/flor.png" alt="Voltregà Gaiola Dobrável Preta para coelhos" />
+          <h3>Voltregà Gaiola Dobrável Preta para coelhos</h3>
+          <p><strong>R$ 178,00</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola Média com Acessórios" data-preco="178.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/amem.png" alt="Gaiola para hamster 46 x 29,5 x h 37,5 cm Branco, MÉDIA" />
+          <h3>Gaiola para hamster 46 x 29,5 x h 37,5 cm Branco, MÉDIA</h3>
+          <p><strong>R$ 459,00</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola Grande para Pássaros" data-preco="459.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gaiola -->
+    <section id="gaiola">
+      <h2>Gaiola Pássaros</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img\preto.png" alt="Gaiola para Pássaros Pequena Epox" />
+          <h3>Gaiola para Pássaros Pequena Epox</h3>
+          <p><strong>R$ 119,90</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola para Pássaros Pequena" data-preco="199.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img\porta.png" alt="Gaiola Redonda Para Pássaros: Gaiola De Pássaros Suspensa De Madeira" />
+          <h3>Gaiola Média com Acessórios</h3>
+          <p><strong>R$ 98,00</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola Redonda Para Pássaros: Gaiola De Pássaros Suspensa De Madeira" data-preco="98.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img\panqueca.png" alt="Gaiola Grande Azul para Pássaros" />
+          <h3>Gaiola Grande Azul para Pássaros</h3>
+          <p><strong>R$ 205,00</strong></p>
+          <button class="btn-comprar" data-nome="Gaiola Grande para Pássaros" data-preco="205.00">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+     
+
+    <!-- Aquário -->
+    <section id="aquario">
+      <h2>Aquário para Tartaruga</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img\tart.png" alt="Aquário p/ Tartaruga 30x20x20 1,8L" />
+          <h3>Aquário 30L</h3>
+          <p><strong>R$ 122,90</strong></p>
+          <button class="btn-comprar" data-nome="Aquário p/ Tartaruga 30x20x20 1,8L" data-preco="122.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img\rocha.png" alt="Aquário para Tartarugas com jardim 50L" />
+          <h3>Aquário para Tartarugas com jardim</h3>
+          <p><strong>R$ 220,90</strong></p>
+          <button class="btn-comprar" data-nome="Aquário 50L Completo" data-preco="220.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img\amor.png" alt="Aquário Terrário N2 Vidro Decorado 25x12x15 Peixe Tartaruga" />
+          <h3>Kit Decoração Aquário</h3>
+          <p><strong>R$ 342,90</strong></p>
+          <button class="btn-comprar" data-nome="Aquário Terrário N2 Vidro Decorado 25x12x15 Peixe Tartaruga" data-preco="342.90">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Casinha -->
+    <section id="casinha">
+      <h2>Casinha Gatos</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/casinha.png" alt="Casinha para Gatos" />
+          <h3>Casinha N5 Grande + Colchão Desmontável Gato  Pet.</h3>
+          <p><strong>R$ 119,90</strong></p>
+          <button class="btn-comprar" data-nome="Casinha de Madeira Pequena" data-preco="119.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/cas.png" alt="Casinha de Plástico Média" />
+          <h3>Casinha Para Gatos Madersilva Amadeirado.</h3>
+          <p><strong>R$ 125,00</strong></p>
+          <button class="btn-comprar" data-nome="Casinha de Plástico Média" data-preco="125.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/madeira.png" alt="Casinha para Cachorro Grande" />
+          <h3>Arranhador Casa De Gato Playground Arvore 4 Andares Luxo</h3>
+          <p><strong>R$ 99,90</strong></p>
+          <button class="btn-comprar" data-nome="Casinha para Cachorro Grande" data-preco="99.90">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+<!-- Casinha -->
+    <section id="casinha">
+      <h2>Casinha Cachorro</h2>
+      <div class="produtos">
+        <div class="item">
+          <img src="img/hawai.png" alt="Casinha para Cachorro" />
+          <h3>Casinha para Cachorro Grande Plástico Sustentável Rimax</h3>
+          <p><strong>R$ 276,90</strong></p>
+          <button class="btn-comprar" data-nome="Casinha de Madeira Pequena" data-preco="276.90">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/morango.png" alt="Casinha de Plástico Média" />
+          <h3>Casinha De Cachorro com Telhado Ecológico Grande N5</h3>
+          <p><strong>R$ 145,00</strong></p>
+          <button class="btn-comprar" data-nome="Casinha de Plástico Média" data-preco="145.00">Comprar</button>
+        </div>
+        <div class="item">
+          <img src="img/beijo.png" alt="Casinha para Cachorro Grande" />
+          <h3>Casinha De Cachorro Verde com Telhado Ecológico Gigante N6</h3>
+          <p><strong>R$ 150,90</strong></p>
+          <button class="btn-comprar" data-nome="Casinha para Cachorro Grande" data-preco="150.90">Comprar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- --- NOVO CARRINHO --- -->
+    <section id="compra">
+      <h2> Seu Carrinho</h2>
+      <div id="carrinho-conteudo">
+        <p style="text-align:center; color:#b02a5b;">Seu carrinho está vazio. Adicione produtos clicando em "Comprar".</p>
+      </div>
+
+      <label for="pagamento">Forma de pagamento:</label>
+      <select id="pagamento" disabled>
+        <option value="pix">PIX</option>
+      </select>
+
+      <!-- Campo para digitar a cidade -->
+  <label for="cidade">Digite sua cidade:</label>
+  <input type="text" id="cidade" placeholder="Ex: São Paulo" style="width:100%; padding:10px; border-radius:15px; border:2px solid #b02a5b; margin-bottom:10px;" />
+
+      <button id="finalizar-compra" disabled>Finalizar Compra</button>
+
+      <div id="mensagem-sucesso" class="mensagem-sucesso"></div>
+
+      <!-- Mapa das entregas -->
+      <div id="mapa-entrega">
+        <h3 style="color:#b02a5b; text-align:center; margin-bottom:10px;">📍 Entregas disponíveis na região</h3>
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3656.785662858446!2d-46.65598192569777!3d-23.576975962492756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59cda3b8e7d1%3A0x71b9de49c5c51b6!2sAv.%20Paulista%2C%20S%C3%A3o%20Paulo%20-%20SP!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+          allowfullscreen=""
+          loading="lazy">
+        </iframe>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // Controle de abas e carrinho (igual ao seu código anterior)
+    const links = document.querySelectorAll('nav ul li a');
+    const sections = document.querySelectorAll('main section');
+    const carrinhoConteudo = document.getElementById('carrinho-conteudo');
+    const pagamentoSelect = document.getElementById('pagamento');
+    const finalizarBtn = document.getElementById('finalizar-compra');
+    const mensagemSucesso = document.getElementById('mensagem-sucesso');
+    let carrinho = [];
+
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.dataset.target;
+        links.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        sections.forEach(sec => sec.classList.toggle('active-section', sec.id === target));
+      });
+    });
+
+    function atualizarCarrinho() {
+      mensagemSucesso.style.display = 'none';
+      if (carrinho.length === 0) {
+        carrinhoConteudo.innerHTML = `<p style="text-align:center; color:#b02a5b;">Seu carrinho está vazio. Adicione produtos clicando em "Comprar".</p>`;
+        pagamentoSelect.disabled = true;
+        finalizarBtn.disabled = true;
+        return;
+      }
+
+      pagamentoSelect.disabled = false;
+      let tabela = `
+        <table>
+          <thead>
+            <tr>
+              <th>Produto</th>
+              <th>Preço (R$)</th>
+              <th>Qtd</th>
+              <th>Subtotal</th>
+              <th>Ações</th>
+            </tr>
+          </thead><tbody>
+      `;
+
+      let total = 0;
+      carrinho.forEach((item, index) => {
+        const subtotal = item.preco * item.quantidade;
+        total += subtotal;
+        tabela += `
+          <tr>
+            <td>${item.nome}</td>
+            <td>${item.preco.toFixed(2)}</td>
+            <td><input type="number" min="1" value="${item.quantidade}" data-index="${index}" class="quantidade-input" style="width:60px; border-radius:8px; border:1px solid #b02a5b; text-align:center;"/></td>
+            <td>${subtotal.toFixed(2)}</td>
+            <td><button data-index="${index}" class="remover-btn">Remover</button></td>
+          </tr>`;
+      });
+
+      tabela += `</tbody></table><div class="total">Total: R$ ${total.toFixed(2)}</div>`;
+      carrinhoConteudo.innerHTML = tabela;
+
+      document.querySelectorAll('.remover-btn').forEach(btn => {
+        btn.onclick = () => { carrinho.splice(btn.dataset.index, 1); atualizarCarrinho(); };
+      });
+
+      document.querySelectorAll('.quantidade-input').forEach(input => {
+        input.onchange = () => {
+          const idx = parseInt(input.dataset.index);
+          carrinho[idx].quantidade = Math.max(1, parseInt(input.value));
+          atualizarCarrinho();
+        };
+      });
+    }
+
+    document.querySelectorAll('.btn-comprar').forEach(botao => {
+      botao.onclick = () => {
+        const nome = botao.dataset.nome;
+        const preco = parseFloat(botao.dataset.preco);
+        const existe = carrinho.find(item => item.nome === nome);
+        existe ? existe.quantidade++ : carrinho.push({ nome, preco, quantidade: 1 });
+        alert(`"${nome}" adicionado ao carrinho!`);
+        atualizarCarrinho();
+        document.querySelector('[data-target="compra"]').click();
+      };
+    });
+
+    pagamentoSelect.onchange = () => finalizarBtn.disabled = pagamentoSelect.value === "";
+    finalizarBtn.onclick = () => {
+      const forma = pagamentoSelect.options[pagamentoSelect.selectedIndex].text;
+      mensagemSucesso.textContent = `Compra realizada com sucesso! 💖 Pagamento via ${forma}. Obrigado por comprar na Pet Mania!`;
+      mensagemSucesso.style.display = 'block';
+      carrinho = [];
+      atualizarCarrinho();
+      pagamentoSelect.value = "";
+    };
+  </script>
+</body>
+</html>
